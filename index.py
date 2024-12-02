@@ -18,7 +18,7 @@ else:
         csv_read = csv.DictReader(file)
         data = [row for row in csv_read]
 
-    #put data dict info into mongodb
+    #put data dict info into mongodb collection
     collection = mydb["listings"]
     if "listings" in mydb.list_collection_names():
         print("Collection already exists")
@@ -26,5 +26,10 @@ else:
     collection.insert_many(data)
 
 
-
- 
+    #Quries 
+    #Query 1 
+    query1 = collection.find().limit(3) 
+    for document in query1:
+        print(document)
+    #Query 2 
+    
