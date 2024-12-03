@@ -15,7 +15,7 @@ else:
     print(database.list_database_names())
 
     #put csv info into a data dict 
-    with open("listings.csv",'r') as file:
+    with open("listings.csv",'r', encoding='utf-8') as file:
         csv_read = csv.DictReader(file)
         data = [row for row in csv_read]
 
