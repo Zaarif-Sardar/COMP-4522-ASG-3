@@ -36,4 +36,12 @@ else:
     query2 = collection.find().limit(10) 
     for document in query2:
         pprint.pp(document)
+    #Query 3 
+    query3 = collection.find({'host_is_superhost': 't'}, {'host_id': 1}).limit(2)
+    superhost_ids = [host['host_id'] for host in query3]
+
+    for host_id in superhost_ids:
+        lists = collection.find({'host_id': host_id})
+        for listing in lists:
+            pprint.pp(listing)
     
