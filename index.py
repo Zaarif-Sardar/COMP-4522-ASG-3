@@ -1,5 +1,6 @@
 import pymongo
 import csv
+import pprint
 
 
 database = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -32,4 +33,7 @@ else:
     for document in query1:
         print(document)
     #Query 2 
+    query2 = collection.find().limit(10) 
+    for document in query2:
+        pprint.pp(document)
     
