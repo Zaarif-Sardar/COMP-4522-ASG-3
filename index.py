@@ -45,3 +45,9 @@ else:
         for listing in lists:
             pprint.pp(listing)
     
+    #query 4
+    query4 = collection.distinct("host_name")
+    print("Unique host names: ")
+    for host_name in query4: print(host_name)
+
+    
