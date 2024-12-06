@@ -75,4 +75,47 @@ else:
     for place in query5: pprint.pp(place)
     
 
+#query 6
+
+    host_listing_count = [{"$group": {"_id": "$host_id", "count": {"$sum": 1}}},
+                          {"$sort": {"count": 1}}]
+    host_count = collection.aggregate(host_listing_count)
+    for host in host_count:
+        print(f"Host ID: {host['_id']}, Listings: {host['count']}")
+
+    
+    #query 7
+print("\nNeighbourhoods with an average review score of 95 and above (descending order):")
+average_rating = [
+    {
+        "$addFields": {
+            "review_scores_numeric": {
+                "$convert": {
+                    "input": "$review_scores_rating",
+                    "to": "double",
+                    "onError": None,
+                    "onNull": None
+                }
+            }
+        }
+    },
+    
+    {"$match": {"review_scores_numeric": {"$ne": None}}},
+
+    {
+        "$group": {
+            "_id": "$neighbourhood",
+            "average_rating": {"$avg": "$review_scores_numeric"}
+        }
+    },
+    # Filter to include only neighbourhoods with an average rating of 95 and above
+    {"$match": {"average_rating": {"$gte": 95}}},
+    # Sort by average_rating in descending order
+    {"$sort": {"average_rating": -1}}
+]
+neighbourhood_ratings = collection.aggregate(average_rating)
+
+# Print the results
+for neighbourhood in neighbourhood_ratings:
+    print(f"Neighbourhood: {neighbourhood['_id']}. \nAverage Rating: {neighbourhood['average_rating']:.2f}" + "\n")
 
