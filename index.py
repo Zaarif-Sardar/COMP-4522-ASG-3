@@ -2,11 +2,13 @@ import pymongo
 import csv
 import pprint
 
-
+#Connect to Local MongoDB Server
 database = pymongo.MongoClient("mongodb://localhost:27017/")
 
+#creating variable with list of existing database names
 dbList = database.list_database_names()
 
+#Check if database already Exists 
 if "TheDatabase" not in dbList:
     print("Creating new Database")
     mydb = database["TheDatabase"]
@@ -21,13 +23,13 @@ if "TheDatabase" not in dbList:
     collection = mydb["listings"]
     if "listings" in mydb.list_collection_names():
         print("Collection already exists")
-        collection.insert_many(data)
+    collection.insert_many(data)
 
     #converting beds from string to int for query 5 processing
     collection.update_many(
         {},
-        [{"$set": { "beds": { "$toInt": "$beds" } }}]
-    )
+    3    [{"$set": { "beds": { "$toInt": "$beds" } }}]
+)
     
     
 else:
