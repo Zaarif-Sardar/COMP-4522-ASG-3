@@ -7,9 +7,7 @@ database = pymongo.MongoClient("mongodb://localhost:27017/")
 
 dbList = database.list_database_names()
 
-if "TheDatabase" in dbList:
-    print("Database already exists")
-else:
+if "TheDatabase" not in dbList:
     print("Creating new Database")
     mydb = database["TheDatabase"]
     print(database.list_database_names())
@@ -23,9 +21,14 @@ else:
     collection = mydb["listings"]
     if "listings" in mydb.list_collection_names():
         print("Collection already exists")
-
-    collection.insert_many(data)
-
+        collection.insert_many(data)
+    
+    
+else:
+    print("Database already exists")
+    mydb = database["TheDatabase"]
+    collection = mydb["listings"]
+    
 
     #Quries 
     #Query 1 
@@ -50,4 +53,18 @@ else:
     print("Unique host names: ")
     for host_name in query4: print(host_name)
 
+
+    #query 5
+    neighbourhood = "goya"
+    query5 = collection.find(
+        {
+            "beds": {"$gt": 2},
+            "neighbourhood_group_cleansed": neighbourhood
+        }
+    ).sort("review_scores_rating", -1)
+
+    print(f"Places with more than 2 beds in {neighbourhood}, sorted by review_scores_rating (desc):")
+    for place in query5: pprint.pp(place)
     
+
+
