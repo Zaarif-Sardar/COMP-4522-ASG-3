@@ -22,6 +22,12 @@ if "TheDatabase" not in dbList:
     if "listings" in mydb.list_collection_names():
         print("Collection already exists")
         collection.insert_many(data)
+
+    #converting beds from string to int for query 5 processing
+    collection.update_many(
+        {},
+        [{"$set": { "beds": { "$toInt": "$beds" } }}]
+    )
     
     
 else:
@@ -55,7 +61,7 @@ else:
 
 
     #query 5
-    neighbourhood = "goya"
+    neighbourhood = "Chamartín" #Chamartín is an example of one cleansed_group. you can use others here.
     query5 = collection.find(
         {
             "beds": {"$gt": 2},
