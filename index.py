@@ -2,6 +2,13 @@ import pymongo
 import csv
 import pprint
 
+#!!!!!!!!!!!!!!!!
+#Just a heads up, to run it twice in order to get it working, there seemed
+#to have been a bug when you first run it with no database created. 
+#All the information should be in the report for a reason why this happens. 
+#
+
+
 #Connect to Local MongoDB Server
 database = pymongo.MongoClient("mongodb://localhost:27017/")
 
